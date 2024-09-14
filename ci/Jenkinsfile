@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/tomunix2000/revaluer-api.git'
+                git credentialsId: 'my-github-auth', url: 'https://github.com/tomunix2000/revaluer-api.git'
             }
         }
 
