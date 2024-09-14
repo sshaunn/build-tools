@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-          image 'golang:1.22-alpine'
-          args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -15,13 +10,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'go build -o main'
+                sh 'docker run --rm -v "$PWD":/go/src/app -w /go/src/app golang:1.22-alpine go build -o main'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'go test ./...'
+                sh 'docker run --rm -v "$PWD":/go/src/app -w /go/src/app golang:1.22-alpine go test ./...'
             }
         }
 
